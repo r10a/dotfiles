@@ -1,0 +1,5 @@
+# Local Claude Code project settings (machine-specific)
+nvim/.claude/settings.local.json
+
+# Editor/OS cruft
+.DS_Store
