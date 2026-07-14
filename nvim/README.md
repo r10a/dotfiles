@@ -49,8 +49,26 @@
 | Key | Action |
 |-----|--------|
 | `Space s` | Open scratchpad |
-| `Space yr` | Yank line/selection as XML with `file:line` ref (for LLMs) |
 | `Space r` | Reload config |
+
+### CopyReference (LLM context review)
+Stage code selections with prompts into a review, then copy the whole bundle
+(as XML) for pasting to an LLM. See "Local modules" below.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<CR>` | visual | Add selection to the review (asks for a per-item prompt) |
+| `Tab Tab` | normal | Open the Review window |
+| `<CR>` | in Review | Copy the whole review to clipboard & clear |
+| `dd` | in Review | Delete the item under the cursor |
+| `r` | in Review | Re-prompt the item (shows its code as context) |
+| `?` | in Review | Show the keybinding help |
+| `Tab Tab` / `Esc` | in Review | Close the Review |
+
+### Markdown tables
+| Key | Mode | Action |
+|-----|------|--------|
+| `Space te` | normal | Enter interactive table editing (pipetable) |
 
 ## Plugins
 
@@ -62,15 +80,23 @@
 - **neogit** — git interface (with diffview integration)
 - **diffview.nvim** — side-by-side diff viewer
 - **auto-session** — auto-save/restore workspace per directory
-- **render-markdown.nvim** — in-editor markdown rendering
+- **render-markdown.nvim** — in-editor markdown rendering (its own table
+  renderer is disabled; tables are handled by pipetable)
+- **markdown-pipetable.nvim** — interactive, fit-to-width markdown tables with
+  cell-by-cell editing (`auto_enter` off; enter with `Space te`)
+- **markdown-table-wrap.nvim** — disabled fallback that word-wraps wide table
+  cells (no in-place editing); re-enable if you prefer wrapping over editing
 - **nvim-treesitter** — syntax parsing for highlighting and rendering
 - **nvim-web-devicons** — file type icons
 
 ## Local modules
 
-- **copyreference** (`lua/copyreference/`) — yank a `file:line` reference with
-  the code, formatted for pasting to LLMs. Bound to `Space yr` (line in normal
-  mode, selection in visual mode) and also exposed as `:CopyReference`
-  (respects a `:'<,'>` range). Paths are git-root-relative when in a repo.
-  Configured in `init.lua` via `setup()`; options: `register`, `use_git_root`,
-  `include_code`, `output_style` (`"markdown"` or `"xml"` — currently `xml`).
+- **copyreference** (`lua/copyreference/`) — stage code selections + per-item
+  prompts into a *review*, then copy the whole bundle (XML, wrapped in a
+  `<context>` element) for pasting to LLMs. Visual `<CR>` adds the selection;
+  a live panel shows staged items at the bottom-right. `Tab Tab` opens the
+  Review, where `<CR>` copies+clears, `dd` deletes, `r` re-prompts (with the
+  code shown as context), and `?` shows help. Paths are git-root-relative when
+  in a repo. Configured in `init.lua` via `setup()`; options: `register`,
+  `use_git_root`, `include_code`, `output_style` (`"markdown"` or `"xml"` —
+  currently `xml`).

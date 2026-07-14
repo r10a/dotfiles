@@ -72,13 +72,15 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
     end,
 })
 
--- Yank file:line reference (with code block) for pasting to LLMs
+-- CopyReference: stage code selections + prompts into a review for pasting to LLMs.
+-- Visual <CR> adds the selection (asking a per-item prompt); a live panel shows at
+-- the bottom-right while items are staged. TabTab opens the Review (Enter copies).
 local copyreference = require("copyreference")
 copyreference.setup({ output_style = "xml" })
-vim.keymap.set("n", "<leader>yr", copyreference.copy_line,
-    { silent = true, desc = "Yank line with file:line ref (for LLMs)" })
-vim.keymap.set("x", "<leader>yr", copyreference.copy_selection,
-    { silent = true, desc = "Yank selection with file:line ref (for LLMs)" })
+vim.keymap.set("x", "<CR>", copyreference.add_selection,
+    { silent = true, desc = "Add selection + prompt to review" })
+vim.keymap.set("n", "<Tab><Tab>", copyreference.review,
+    { silent = true, desc = "Open CopyReference review" })
 
 -- Reload config
 vim.keymap.set("n", "<leader>r", function()
