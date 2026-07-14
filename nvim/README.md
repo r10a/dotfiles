@@ -49,7 +49,7 @@
 | Key | Action |
 |-----|--------|
 | `Space s` | Open scratchpad |
-| `Space yr` | Yank line/selection with `file:line` ref (for LLMs) |
+| `Space yr` | Yank line/selection as XML with `file:line` ref (for LLMs) |
 | `Space r` | Reload config |
 
 ## Plugins
@@ -65,3 +65,12 @@
 - **render-markdown.nvim** — in-editor markdown rendering
 - **nvim-treesitter** — syntax parsing for highlighting and rendering
 - **nvim-web-devicons** — file type icons
+
+## Local modules
+
+- **copyreference** (`lua/copyreference/`) — yank a `file:line` reference with
+  the code, formatted for pasting to LLMs. Bound to `Space yr` (line in normal
+  mode, selection in visual mode) and also exposed as `:CopyReference`
+  (respects a `:'<,'>` range). Paths are git-root-relative when in a repo.
+  Configured in `init.lua` via `setup()`; options: `register`, `use_git_root`,
+  `include_code`, `output_style` (`"markdown"` or `"xml"` — currently `xml`).
