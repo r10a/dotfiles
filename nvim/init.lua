@@ -37,7 +37,16 @@ opt.splitbelow = true
 opt.splitright = true
 opt.updatetime = 250
 opt.timeoutlen = 300
-opt.wrap = false
+opt.wrap = true
+opt.linebreak = true -- wrap at word boundaries, not mid-word
+
+-- Move by visual line when wrapped (bare j/k/arrows); counts like 5j stay linewise
+for _, key in ipairs({ "j", "<Down>" }) do
+    vim.keymap.set({ "n", "v" }, key, "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+end
+for _, key in ipairs({ "k", "<Up>" }) do
+    vim.keymap.set({ "n", "v" }, key, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+end
 
 -- Split management
 vim.keymap.set("n", "<leader>h", ":split<CR>", { silent = true, desc = "Horizontal split" })

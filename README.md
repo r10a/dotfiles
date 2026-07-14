@@ -8,9 +8,11 @@ Personal configuration files, organized one folder per tool.
 dotfiles/
   nvim/            ->  ~/.config/nvim/
   tmux/tmux.conf   ->  ~/.config/tmux/tmux.conf
+  AGENTS.md        ->  ~/AGENTS.md  and  ~/CLAUDE.md
 ```
 
-Each folder is symlinked into `~/.config/`.
+Configs are symlinked into place. `AGENTS.md` holds global agent
+instructions; `~/CLAUDE.md` is a second symlink to the same file.
 
 ## Setup on a new machine
 
@@ -18,4 +20,6 @@ Each folder is symlinked into `~/.config/`.
 git clone <this-repo> ~/dotfiles
 ln -s ~/dotfiles/nvim ~/.config/nvim
 ln -s ~/dotfiles/tmux ~/.config/tmux
+ln -s ~/dotfiles/AGENTS.md ~/AGENTS.md
+ln -s ~/dotfiles/AGENTS.md ~/CLAUDE.md
 ```
