@@ -48,6 +48,9 @@ for _, key in ipairs({ "k", "<Up>" }) do
     vim.keymap.set({ "n", "v" }, key, "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 end
 
+-- Enter visual mode from insert mode (overrides insert-literal <C-v>)
+vim.keymap.set("i", "<C-v>", "<Esc>v", { silent = true, desc = "Insert → visual mode" })
+
 -- Split management
 vim.keymap.set("n", "<leader>h", ":split<CR>", { silent = true, desc = "Horizontal split" })
 vim.keymap.set("n", "<leader>v", ":vsplit<CR>", { silent = true, desc = "Vertical split" })

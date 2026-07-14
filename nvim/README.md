@@ -50,6 +50,7 @@
 |-----|--------|
 | `Space s` | Open scratchpad |
 | `Space r` | Reload config |
+| `Ctrl-v` (insert) | Switch to visual mode (overrides insert-literal) |
 
 ### CopyReference (LLM context review)
 Stage code selections with prompts into a review, then copy the whole bundle
@@ -65,11 +66,6 @@ Stage code selections with prompts into a review, then copy the whole bundle
 | `?` | in Review | Show the keybinding help |
 | `Tab Tab` / `Esc` | in Review | Close the Review |
 
-### Markdown tables
-| Key | Mode | Action |
-|-----|------|--------|
-| `Space te` | normal | Enter interactive table editing (pipetable) |
-
 ## Plugins
 
 - **bufferline.nvim** — buffer tabs with ordinal numbers
@@ -81,9 +77,9 @@ Stage code selections with prompts into a review, then copy the whole bundle
 - **diffview.nvim** — side-by-side diff viewer
 - **auto-session** — auto-save/restore workspace per directory
 - **render-markdown.nvim** — in-editor markdown rendering (its own table
-  renderer is disabled; tables are handled by pipetable)
-- **markdown-pipetable.nvim** — interactive, fit-to-width markdown tables with
-  cell-by-cell editing (`auto_enter` off; enter with `Space te`)
+  renderer is disabled; tables are handled by markdown-table-wrap)
+- **markdown-table-wrap.nvim** — word-wraps wide markdown table cells so tables
+  render cleanly while `wrap` stays on for prose (`inline_disable_wrap = false`)
 - **nvim-treesitter** — syntax parsing for highlighting and rendering
 - **nvim-web-devicons** — file type icons
 
