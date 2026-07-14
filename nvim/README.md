@@ -84,8 +84,6 @@ Stage code selections with prompts into a review, then copy the whole bundle
   renderer is disabled; tables are handled by pipetable)
 - **markdown-pipetable.nvim** — interactive, fit-to-width markdown tables with
   cell-by-cell editing (`auto_enter` off; enter with `Space te`)
-- **markdown-table-wrap.nvim** — disabled fallback that word-wraps wide table
-  cells (no in-place editing); re-enable if you prefer wrapping over editing
 - **nvim-treesitter** — syntax parsing for highlighting and rendering
 - **nvim-web-devicons** — file type icons
 

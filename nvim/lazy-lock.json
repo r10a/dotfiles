@@ -4,7 +4,6 @@
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "markdown-pipetable.nvim": { "branch": "main", "commit": "9e1f294d5cec6eafe9ce906e6d117b7de6ebe584" },
-  "markdown-table-wrap.nvim": { "branch": "master", "commit": "cae4c2d9f81c73d2843ffab8a6ad2c87bbb3c3e6" },
   "neogit": { "branch": "master", "commit": "a0847c4bea5a5f92a36e3f3bf7da99d7d685d3ac" },
   "nvim-tree.lua": { "branch": "master", "commit": "cf18a662cd5f200361b6fedfb794eed583e075e1" },
   "nvim-treesitter": { "branch": "main", "commit": "4916d6592ede8c07973490d9322f187e07dfefac" },
