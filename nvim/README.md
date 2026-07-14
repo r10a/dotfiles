@@ -34,6 +34,7 @@
 | `Space f` | Find files |
 | `Space g` | Live grep (excludes node_modules, .git) |
 | `Space b` | Find buffers |
+| `Space ?` | Search keybinds |
 
 ### Git
 | Key | Action |

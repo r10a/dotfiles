@@ -16,5 +16,6 @@ return {
             builtin.live_grep({ glob_pattern = { "!node_modules/**", "!.git/**" } })
         end, { desc = "Live grep" })
         vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "Find buffers" })
+        vim.keymap.set("n", "<leader>?", builtin.keymaps, { desc = "Search keybinds" })
     end,
 }

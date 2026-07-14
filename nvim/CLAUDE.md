@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a Neovim configuration repository. The entry point is `init.lua`. Neovim loads this config from `~/.config/nvim/` (or wherever `XDG_CONFIG_HOME` points), so this repo should be symlinked or cloned there.
+This is the Neovim configuration, kept in the `nvim/` subfolder of the personal dotfiles repo (`github.com/r10a/dotfiles`). The entry point is `init.lua`. Neovim loads this config from `~/.config/nvim/`, which is a symlink to `~/dotfiles/nvim/` — edit via either path, but run `git` from `~/dotfiles`.
 
 ## Structure
 
