@@ -49,6 +49,7 @@
 | Key | Action |
 |-----|--------|
 | `Space s` | Open scratchpad |
+| `Space yr` | Yank line/selection with `file:line` ref (for LLMs) |
 | `Space r` | Reload config |
 
 ## Plugins

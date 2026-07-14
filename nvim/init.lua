@@ -72,6 +72,36 @@ vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
     end,
 })
 
+-- Yank with file:line reference, formatted for pasting to LLMs
+local function yank_with_ref(line1, line2)
+    if line1 > line2 then
+        line1, line2 = line2, line1 -- normalize upward selections
+    end
+    local path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.") -- relative to cwd
+    if path == "" then
+        path = "[No Name]"
+    end
+    local ref = line1 == line2 and (path .. ":" .. line1)
+        or (path .. ":" .. line1 .. "-" .. line2)
+    local lines = vim.api.nvim_buf_get_lines(0, line1 - 1, line2, false)
+    local ft = vim.bo.filetype
+    local block = table.concat({
+        ref,
+        "```" .. ft,
+        table.concat(lines, "\n"),
+        "```",
+    }, "\n")
+    vim.fn.setreg("+", block)
+    vim.notify("Copied " .. ref)
+end
+vim.keymap.set("n", "<leader>yr", function()
+    local l = vim.fn.line(".")
+    yank_with_ref(l, l)
+end, { silent = true, desc = "Yank line with file:line ref (for LLMs)" })
+vim.keymap.set("x", "<leader>yr", function()
+    yank_with_ref(vim.fn.line("v"), vim.fn.line("."))
+end, { silent = true, desc = "Yank selection with file:line ref (for LLMs)" })
+
 -- Reload config
 vim.keymap.set("n", "<leader>r", function()
     vim.cmd("source $MYVIMRC")
