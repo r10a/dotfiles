@@ -46,7 +46,8 @@ local function format_markdown(ctx)
     return table.concat(parts, "\n")
 end
 
--- Format `ctx` as XML, which Claude parses with less ambiguity.
+-- Format `ctx` as XML, which Claude parses with less ambiguity. Each item is
+-- wrapped in <item> so the file and its prompt are unambiguously paired.
 local function format_xml(ctx)
     local parts = {}
     local attrs = string.format('path="%s" lines="%s"', ctx.path, ctx.range)
@@ -61,7 +62,7 @@ local function format_xml(ctx)
     if ctx.prompt and ctx.prompt ~= "" then
         table.insert(parts, "<prompt>\n" .. ctx.prompt .. "\n</prompt>")
     end
-    return table.concat(parts, "\n")
+    return "<item>\n" .. table.concat(parts, "\n") .. "\n</item>"
 end
 
 local function format_ctx(ctx)
@@ -95,17 +96,14 @@ end
 -- Staged items for the review (in-memory; cleared on copy_all).
 local staged = {}
 
--- Render all staged items into one payload (xml is wrapped in <context>).
+-- Render all staged items into one payload. XML items are each self-contained
+-- (<item>...</item>), so they're simply concatenated with no outer wrapper.
 local function format_batch(items)
     local blocks = {}
     for _, ctx in ipairs(items) do
         blocks[#blocks + 1] = format_ctx(ctx)
     end
-    local body = table.concat(blocks, "\n\n")
-    if M.config.output_style == "xml" then
-        return "<context>\n" .. body .. "\n</context>"
-    end
-    return body
+    return table.concat(blocks, "\n\n")
 end
 
 -- First few words of a prompt, for the compact summary view.

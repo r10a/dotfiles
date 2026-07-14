@@ -90,8 +90,9 @@ Stage code selections with prompts into a review, then copy the whole bundle
 ## Local modules
 
 - **copyreference** (`lua/copyreference/`) — stage code selections + per-item
-  prompts into a *review*, then copy the whole bundle (XML, wrapped in a
-  `<context>` element) for pasting to LLMs. Visual `<CR>` adds the selection;
+  prompts into a *review*, then copy the whole bundle for pasting to LLMs. In
+  XML mode each entry is a self-contained `<item>` (file + prompt). Visual
+  `<CR>` adds the selection;
   a live panel shows staged items at the bottom-right. `Tab Tab` opens the
   Review, where `<CR>` copies+clears, `dd` deletes, `r` re-prompts (with the
   code shown as context), and `?` shows help. Paths are git-root-relative when
