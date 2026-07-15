@@ -76,10 +76,8 @@ Stage code selections with prompts into a review, then copy the whole bundle
 - **neogit** — git interface (with diffview integration)
 - **diffview.nvim** — side-by-side diff viewer
 - **auto-session** — auto-save/restore workspace per directory
-- **render-markdown.nvim** — in-editor markdown rendering (its own table
-  renderer is disabled; tables are handled by markdown-table-wrap)
-- **markdown-table-wrap.nvim** — word-wraps wide markdown table cells so tables
-  render cleanly while `wrap` stays on for prose (`inline_disable_wrap = false`)
+- **render-markdown.nvim** — in-editor markdown rendering (table rendering left
+  off; tables show as plain aligned source, since `wrap` breaks pipe tables)
 - **nvim-treesitter** — syntax parsing for highlighting and rendering
 - **nvim-web-devicons** — file type icons
 

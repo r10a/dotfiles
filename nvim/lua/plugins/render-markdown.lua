@@ -8,9 +8,9 @@ return {
     config = function()
         require("render-markdown").setup({
             render_modes = true,
-            -- Tables are rendered by markdown-table-wrap.nvim, which word-wraps
-            -- wide cells (render-markdown can't wrap tables yet). TODO: re-enable
-            -- once render-markdown supports table cell-wrapping (issue #616 / PR #617).
+            -- Table rendering left off: with global `wrap = true`, render-markdown's
+            -- pipe tables break on wide rows (issue #616 / PR #617). Tables show as
+            -- plain aligned markdown source, which is readable and doesn't misbehave.
             pipe_table = { enabled = false },
             anti_conceal = {
                 enabled = true,
