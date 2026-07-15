@@ -52,9 +52,10 @@
 | `Space r` | Reload config |
 | `Ctrl-v` (insert) | Switch to visual mode (overrides insert-literal) |
 
-### CopyReference (LLM context review)
+### prompt-reference (LLM context review)
 Stage code selections with prompts into a review, then copy the whole bundle
-(as XML) for pasting to an LLM. See "Local modules" below.
+(as XML) for pasting to an LLM. Provided by
+[prompt-reference.nvim](https://github.com/r10a/prompt-reference.nvim).
 
 | Key | Mode | Action |
 |-----|------|--------|
@@ -80,16 +81,6 @@ Stage code selections with prompts into a review, then copy the whole bundle
   off; tables show as plain aligned source, since `wrap` breaks pipe tables)
 - **nvim-treesitter** — syntax parsing for highlighting and rendering
 - **nvim-web-devicons** — file type icons
-
-## Local modules
-
-- **copyreference** (`lua/copyreference/`) — stage code selections + per-item
-  prompts into a *review*, then copy the whole bundle for pasting to LLMs. In
-  XML mode each entry is a self-contained `<item>` (file + prompt). Visual
-  `<CR>` adds the selection;
-  a live panel shows staged items at the bottom-right. `Tab Tab` opens the
-  Review, where `<CR>` copies+clears, `dd` deletes, `r` re-prompts (with the
-  code shown as context), and `?` shows help. Paths are git-root-relative when
-  in a repo. Configured in `init.lua` via `setup()`; options: `register`,
-  `use_git_root`, `include_code`, `output_style` (`"markdown"` or `"xml"` —
-  currently `xml`).
+- **prompt-reference.nvim** — stage code selections + per-item prompts into a
+  review, then copy the bundle (XML) for pasting to LLMs (own repo:
+  [r10a/prompt-reference.nvim](https://github.com/r10a/prompt-reference.nvim))
