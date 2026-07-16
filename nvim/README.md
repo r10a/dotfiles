@@ -19,12 +19,6 @@
 | `Space Down` | Move to below split |
 | `Space Up` | Move to above split |
 | `Space Right` | Move to right split |
-
-### Workspace
-| Key | Action |
-|-----|--------|
-| `Space n` | New workspace |
-| `Space w` | Close workspace |
 | `Space Q` | Quit all |
 
 ### File Navigation

@@ -63,8 +63,6 @@ vim.keymap.set("n", "<leader><Up>", "<C-w>k", { silent = true, desc = "Move to a
 vim.keymap.set("n", "<leader><Right>", "<C-w>l", { silent = true, desc = "Move to right split" })
 
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { silent = true, desc = "Quit all" })
-vim.keymap.set("n", "<leader>n", ":tabnew<CR>", { silent = true, desc = "New workspace" })
-vim.keymap.set("n", "<leader>w", ":tabclose<CR>", { silent = true, desc = "Close workspace" })
 
 -- Scratchpad
 vim.keymap.set("n", "<leader>s", function()
