@@ -51,6 +51,9 @@ end
 -- Enter visual mode from insert mode (overrides insert-literal <C-v>)
 vim.keymap.set("i", "<C-v>", "<Esc>v", { silent = true, desc = "Insert → visual mode" })
 
+-- Clear search highlight
+vim.keymap.set("n", "<Esc><Esc>", ":noh<CR>", { silent = true, desc = "Clear search highlight" })
+
 -- Split management
 vim.keymap.set("n", "<leader>h", ":split<CR>", { silent = true, desc = "Horizontal split" })
 vim.keymap.set("n", "<leader>v", ":vsplit<CR>", { silent = true, desc = "Vertical split" })
