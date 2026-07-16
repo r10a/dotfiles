@@ -50,6 +50,8 @@
 |-----|--------|
 | `Space s` | Open scratchpad |
 | `Space r` | Reload config |
+| `s` | Jump to a location on screen (nvim-jump; overrides substitute) |
+| `Esc Esc` | Clear search highlight |
 | `Ctrl-v` (insert) | Switch to visual mode (overrides insert-literal) |
 
 ### prompt-reference (LLM context review)
@@ -69,6 +71,8 @@ Stage code selections with prompts into a review, then copy the whole bundle
 
 ## Plugins
 
+- **kanagawa.nvim** - colorscheme (wave variant)
+- **nvim-jump** - label-based on-screen motion (press `s`, type a match, jump)
 - **bufferline.nvim** — buffer tabs with ordinal numbers
 - **scope.nvim** — scopes buffers to workspaces (tabs)
 - **nvim-tree.lua** — floating file tree explorer
