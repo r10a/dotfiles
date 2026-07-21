@@ -23,3 +23,17 @@ ln -s ~/dotfiles/tmux ~/.config/tmux
 ln -s ~/dotfiles/AGENTS.md ~/AGENTS.md
 ln -s ~/dotfiles/AGENTS.md ~/CLAUDE.md
 ```
+
+## Recommended Claude Code plugins
+
+Not symlinked (Claude Code manages plugin state itself). Install with
+`claude plugin install <plugin>@<marketplace>`:
+
+| Plugin | Marketplace | Repo |
+| --- | --- | --- |
+| `example-skills` | `anthropic-agent-skills` | `anthropics/skills` |
+| `ponytail` | `ponytail` | `DietrichGebert/ponytail` |
+| `keep-awake` | `claude-community` | `anthropics/claude-plugins-community` |
+
+Add a marketplace first if it's unknown:
+`claude plugin marketplace add <repo>`.
