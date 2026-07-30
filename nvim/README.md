@@ -49,15 +49,16 @@
 | `Ctrl-v` (insert) | Switch to visual mode (overrides insert-literal) |
 
 ### prompt-reference (LLM context review)
-Stage code selections with prompts into a review, then copy the whole bundle
-(as XML) for pasting to an LLM. Provided by
+Stage code selections with prompts into a review, then send the whole bundle
+(as XML) straight into the tmux pane running Claude Code (`sink = "tmux"`;
+auto-detects the pane, falls back to the clipboard if none is found). Provided by
 [prompt-reference.nvim](https://github.com/r10a/prompt-reference.nvim).
 
 | Key | Mode | Action |
 |-----|------|--------|
 | `<CR>` | visual | Add selection to the review (asks for a per-item prompt) |
 | `Tab Tab` | normal | Open the Review window |
-| `<CR>` | in Review | Copy the whole review to clipboard & clear |
+| `<CR>` | in Review | Send the whole review to the claude tmux pane & clear |
 | `dd` | in Review | Delete the item under the cursor |
 | `r` | in Review | Re-prompt the item (shows its code as context) |
 | `?` | in Review | Show the keybinding help |

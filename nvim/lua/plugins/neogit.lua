@@ -2,10 +2,13 @@ return {
     "NeogitOrg/neogit",
     dependencies = {
         "nvim-lua/plenary.nvim",
-        "sindrets/diffview.nvim",
+        { "dlyongemallo/diffview-plus.nvim", version = "*" },
         "nvim-telescope/telescope.nvim",
     },
-    config = true,
+    opts = {
+        integrations = { diffview = true },
+        graph_style = "unicode",
+    },
     cmd = "Neogit",
     keys = {
         { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit status" },

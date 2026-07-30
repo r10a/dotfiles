@@ -7,6 +7,7 @@ return {
     "r10a/prompt-reference.nvim",
     opts = {
         output_style = "xml", -- xml parses more reliably for Claude
+        sink = "tmux", -- paste the review into the tmux pane running claude
         keymaps = true, -- visual <CR> = add, <Tab><Tab> = review
     },
 }
