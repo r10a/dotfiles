@@ -1,0 +1,17 @@
+source <(fzf --zsh)
+
+# starship prompt + zoxide (smart cd). Guarded so a machine without them still
+# gets a working shell.
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+command -v zoxide   >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+
+# aliases
+alias ec='nvim ~/.zshrc'
+alias sc='source ~/.zshrc;echo "ZSH aliases sourced."'
+alias ll='ls -ltarh'
+alias vi='nvim'
+alias cc='claude --allow-dangerously-skip-permissions'
+
+# Machine-local, untracked env (work credentials, per-host config). Gitignored
+# on purpose -- keep secrets out of the repo.
+[ -r "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

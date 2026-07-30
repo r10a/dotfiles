@@ -75,13 +75,39 @@ install_tmux() {
   fi
 }
 
+# starship (prompt) + zoxide (smart cd). Prefer brew on macOS; fall back to the
+# official curl installers on Linux boxes without brew.
+install_starship() {
+  command -v starship >/dev/null 2>&1 && { log "starship present: $(starship --version | head -1)"; return; }
+  if command -v brew >/dev/null 2>&1; then
+    log "installing starship (brew)"; brew install starship
+  else
+    log "installing starship (curl)"; curl -fsSL https://starship.rs/install.sh | sh -s -- -y
+  fi
+}
+
+install_zoxide() {
+  command -v zoxide >/dev/null 2>&1 && { log "zoxide present: $(zoxide --version)"; return; }
+  if command -v brew >/dev/null 2>&1; then
+    log "installing zoxide (brew)"; brew install zoxide
+  else
+    log "installing zoxide (curl)"; curl -fsSL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+  fi
+}
+
 install_neovim
 install_tmux
+install_starship
+install_zoxide
 
 # --- symlinks (see README.md) -----------------------------------------------
-link "$DOTFILES_DIR/nvim"       "$HOME/.config/nvim"
-link "$DOTFILES_DIR/tmux"       "$HOME/.config/tmux"
-link "$DOTFILES_DIR/AGENTS.md"  "$HOME/AGENTS.md"
-link "$DOTFILES_DIR/AGENTS.md"  "$HOME/CLAUDE.md"
+link "$DOTFILES_DIR/nvim"                  "$HOME/.config/nvim"
+link "$DOTFILES_DIR/tmux"                  "$HOME/.config/tmux"
+link "$DOTFILES_DIR/wezterm/wezterm.lua"   "$HOME/.wezterm.lua"
+link "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
+link "$DOTFILES_DIR/zsh/zshrc"             "$HOME/.zshrc"
+link "$DOTFILES_DIR/AGENTS.md"             "$HOME/AGENTS.md"
+link "$DOTFILES_DIR/AGENTS.md"             "$HOME/CLAUDE.md"
 
 log "done. Launch nvim once to let lazy.nvim sync plugins."
+log "add to your shell rc: eval \"\$(starship init zsh)\" and eval \"\$(zoxide init zsh)\""
