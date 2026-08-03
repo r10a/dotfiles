@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Idempotent dotfiles installer.
 #
-# Works on a fresh machine or a GitHub Codespace: installs neovim + tmux if
-# missing, then symlinks the configs into place (per README.md). Safe to re-run;
-# existing real files are backed up to <path>.bak before being replaced.
+# Works on a fresh machine or a GitHub Codespace: installs every tool the configs
+# need if it is missing, then symlinks the configs into place (per README.md).
+# Safe to re-run; existing real files are backed up to <path>.bak first.
 #
 # GitHub Codespaces runs this automatically when this repo is set as your
 # dotfiles repo (Settings -> Codespaces -> Automatically install dotfiles).
@@ -14,6 +14,9 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 log() { printf '\033[1;34m[dotfiles]\033[0m %s\n' "$*"; }
+
+# treehouse and claude install here; make them visible to later steps in this run.
+export PATH="$HOME/.local/bin:$PATH"
 
 # --- link helper: back up an existing real target, then symlink -------------
 link() {
@@ -35,11 +38,14 @@ link() {
   log "link  $dst -> $src"
 }
 
-# --- install neovim + tmux if absent ----------------------------------------
-# Debian/Ubuntu ship an old neovim (too old for lazy.nvim), so fetch the
-# official static build for neovim; use the distro package for tmux.
+# --- tools: install if absent, prefer brew, else the distro/official installer -
+# Debian/Ubuntu ship an old neovim (too old for lazy.nvim), so fetch the official
+# static build there.
 install_neovim() {
   command -v nvim >/dev/null 2>&1 && { log "neovim present: $(nvim --version | head -1)"; return; }
+  if command -v brew >/dev/null 2>&1; then
+    log "installing neovim (brew)"; brew install neovim; return
+  fi
   log "installing neovim (official stable build)"
   local arch asset url tmp
   case "$(uname -m)" in
@@ -67,11 +73,26 @@ install_neovim() {
 
 install_tmux() {
   command -v tmux >/dev/null 2>&1 && { log "tmux present: $(tmux -V)"; return; }
-  if command -v apt-get >/dev/null 2>&1; then
+  if command -v brew >/dev/null 2>&1; then
+    log "installing tmux (brew)"; brew install tmux
+  elif command -v apt-get >/dev/null 2>&1; then
     log "installing tmux (apt)"
     sudo apt-get update -qq && sudo apt-get install -y -qq tmux
   else
-    log "WARN: no apt-get; install tmux yourself"
+    log "WARN: no brew or apt-get; install tmux yourself"
+  fi
+}
+
+# zsh/zshrc sources `fzf --zsh` on its first line, so a missing fzf breaks the shell.
+install_fzf() {
+  command -v fzf >/dev/null 2>&1 && { log "fzf present: $(fzf --version)"; return; }
+  if command -v brew >/dev/null 2>&1; then
+    log "installing fzf (brew)"; brew install fzf
+  elif command -v apt-get >/dev/null 2>&1; then
+    log "installing fzf (apt)"
+    sudo apt-get update -qq && sudo apt-get install -y -qq fzf
+  else
+    log "WARN: no brew or apt-get; install fzf yourself"
   fi
 }
 
@@ -95,10 +116,48 @@ install_zoxide() {
   fi
 }
 
+install_treehouse() {
+  command -v treehouse >/dev/null 2>&1 && { log "treehouse present: $(treehouse --version 2>&1 | head -1)"; return; }
+  log "installing treehouse (curl)"; curl -fsSL https://kunchenguid.github.io/treehouse/install.sh | sh
+}
+
+# node ships npx, which the skills CLI needs.
+install_node() {
+  command -v npx >/dev/null 2>&1 && { log "node present: $(node --version)"; return; }
+  if command -v brew >/dev/null 2>&1; then
+    log "installing node (brew)"; brew install node
+  elif command -v apt-get >/dev/null 2>&1; then
+    log "installing node 22 (nodesource)"
+    curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+    sudo apt-get install -y -qq nodejs
+  else
+    log "WARN: no brew or apt-get; install node yourself"
+  fi
+}
+
+install_claude() {
+  command -v claude >/dev/null 2>&1 && { log "claude present: $(claude --version)"; return; }
+  log "installing claude code (curl)"; curl -fsSL https://claude.ai/install.sh | bash
+}
+
+# mattpocock/skills for both agents: the Claude Code plugin (managed, auto-updating)
+# and the skills CLI for Codex. Never both in one repo - you get every skill twice.
+install_agent_skills() {
+  log "installing mattpocock-skills (claude plugin)"
+  claude plugin install mattpocock-skills@claude-plugins-official
+  log "installing mattpocock/skills (codex, global)"
+  npx -y skills@latest add mattpocock/skills --global --agent codex --skill '*' -y
+}
+
 install_neovim
 install_tmux
+install_fzf
 install_starship
 install_zoxide
+install_treehouse
+install_node
+install_claude
+install_agent_skills
 
 # --- symlinks (see README.md) -----------------------------------------------
 link "$DOTFILES_DIR/nvim"                  "$HOME/.config/nvim"
@@ -108,6 +167,7 @@ link "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 link "$DOTFILES_DIR/zsh/zshrc"             "$HOME/.zshrc"
 link "$DOTFILES_DIR/AGENTS.md"             "$HOME/AGENTS.md"
 link "$DOTFILES_DIR/AGENTS.md"             "$HOME/CLAUDE.md"
+link "$DOTFILES_DIR/AGENTS.md"             "$HOME/.codex/AGENTS.md"
 
 log "done. Launch nvim once to let lazy.nvim sync plugins."
-log "add to your shell rc: eval \"\$(starship init zsh)\" and eval \"\$(zoxide init zsh)\""
+log "run /setup-matt-pocock-skills once per repo to configure the skills."

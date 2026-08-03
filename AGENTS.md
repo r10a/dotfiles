@@ -13,6 +13,12 @@
 - Apply that same high standard to engineering excellence: lint, test failures, and test flakiness.
   If you see one, even if it is not caused by what you are working on right now, still get it fixed.
 
+## Worktrees (treehouse)
+- `treehouse` manages a pool of reusable git worktrees so parallel agents don't collide. Use it instead of `git worktree add` or a second clone; pooled worktrees keep their dependencies and build cache.
+- Non-interactive: `path=$(treehouse get --lease --lease-holder <label>)` prints the worktree path to stdout (banners go to stderr). Release with `treehouse return "$path"`, which resets it and returns it to the pool.
+- A lease survives with no process inside it and is never handed out or pruned until returned, so always return one you took.
+- `treehouse status --json` lists the pool with `path`, `status`, and `lease_holder`. Never `rm -rf` a worktree; use `treehouse return` or `treehouse destroy <path> --yes`.
+
 ## Response style
 - Default to the shortest answer that fully addresses the request. Lead with the answer, not the reasoning.
 - No preamble or postamble. Skip "Here's...", "Great question", and closing summaries.
