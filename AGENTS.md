@@ -2,6 +2,7 @@
 
 - Never use the em dash "—". Use plain dash "-" instead
 - Do not insert hard newlines inside paragraphs. Write each paragraph as one continuous string. Allow text to soft-wrap based on the destination editor.
+- Do not use no-mistakes unless the user explictly asks you to.
 - When writing commit messages, NEVER auto-add your agent name as co-author.
 - Never manually modify CHANGELOG.md files or any files that are marked as auto-generated
 - When making technical decisions, do not give much weight to development cost.

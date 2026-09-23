@@ -1,6 +1,11 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+-- resurrect: tmux-resurrect for wezterm. Wezterm clones it on first config load
+-- (into its plugins dir, where the saved state also lives), so install.sh needs
+-- no step for it. Upstream is archived but stable.
+local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+
 -- Font: MesloLGS Nerd Font (installed via brew). Nerd Font glyphs make the
 -- tmux/nvim/starship icons render instead of showing as boxes.
 config.font = wezterm.font("MesloLGS Nerd Font")
@@ -28,7 +33,7 @@ config.audible_bell = "Disabled"
 -- so the two layers never fight). Bare Ctrl-h/j/k/l are left UNBOUND on purpose
 -- so nvim<->tmux seamless navigation still owns them.
 local act = wezterm.action
-config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+-- config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = {
   -- Tabs (tmux windows)
@@ -60,6 +65,26 @@ config.keys = {
   -- Send a literal Ctrl-b to the program inside (press leader twice)
   { key = "b", mods = "LEADER|CTRL", action = act.SendKey({ key = "b", mods = "CTRL" }) },
 
+  -- resurrect: save now / restore from a fuzzy list of saved states.
+  { key = "w", mods = "ALT", action = wezterm.action_callback(function()
+    resurrect.state_manager.save_state(resurrect.workspace_state.get_workspace_state())
+  end) },
+  { key = "r", mods = "ALT", action = wezterm.action_callback(function(win, pane)
+    resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id)
+      local kind = id:match("^([^/]+)")
+      id = id:match("([^/]+)$"):match("(.+)%..+$")
+      local state = resurrect.state_manager.load_state(id, kind)
+      local opts = { relative = true, restore_text = true, on_pane_restore = resurrect.tab_state.default_on_pane_restore }
+      if kind == "workspace" then
+        resurrect.workspace_state.restore_workspace(state, opts)
+      elseif kind == "window" then
+        resurrect.window_state.restore_window(pane:window(), state, opts)
+      elseif kind == "tab" then
+        resurrect.tab_state.restore_tab(pane:tab(), state, opts)
+      end
+    end)
+  end) },
+
   -- Jump to tab by number (tmux `prefix 1..9`)
   { key = "1", mods = "LEADER", action = act.ActivateTab(0) },
   { key = "2", mods = "LEADER", action = act.ActivateTab(1) },
@@ -85,5 +110,12 @@ config.key_tables = {
 -- Alt-j/k line-move) work rather than typing accented characters.
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
+
+resurrect.state_manager.periodic_save({
+  interval_seconds = 15 * 60,
+  save_workspaces = true,
+  save_windows = true,
+  save_tabs = true,
+})
 
 return config

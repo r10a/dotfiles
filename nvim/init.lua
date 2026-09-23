@@ -32,6 +32,10 @@ opt.signcolumn = "yes"
 opt.scrolloff = 8
 opt.termguicolors = true
 
+-- Command-line completion: <Tab> shows matches in a popup menu
+opt.wildmode = "longest:full,full"
+opt.wildoptions = "pum"
+
 -- Misc sensible defaults
 opt.splitbelow = true
 opt.splitright = true
@@ -54,6 +58,11 @@ vim.keymap.set("i", "<C-v>", "<Esc>v", { silent = true, desc = "Insert → visua
 -- Clear search highlight
 vim.keymap.set("n", "<Esc><Esc>", ":noh<CR>", { silent = true, desc = "Clear search highlight" })
 
+-- Buffers
+vim.keymap.set("n", "<leader>]", ":bnext<CR>", { silent = true, desc = "Next buffer" })
+vim.keymap.set("n", "<leader>[", ":bprevious<CR>", { silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>q", ":bdelete<CR>", { silent = true, desc = "Close buffer" })
+
 -- Split management
 vim.keymap.set("n", "<leader>h", ":split<CR>", { silent = true, desc = "Horizontal split" })
 vim.keymap.set("n", "<leader>v", ":vsplit<CR>", { silent = true, desc = "Vertical split" })
@@ -61,6 +70,8 @@ vim.keymap.set("n", "<leader><Left>", "<C-w>h", { silent = true, desc = "Move to
 vim.keymap.set("n", "<leader><Down>", "<C-w>j", { silent = true, desc = "Move to below split" })
 vim.keymap.set("n", "<leader><Up>", "<C-w>k", { silent = true, desc = "Move to above split" })
 vim.keymap.set("n", "<leader><Right>", "<C-w>l", { silent = true, desc = "Move to right split" })
+
+vim.keymap.set("n", "<leader>tq", ":tabclose<CR>", { silent = true, desc = "Close tab" })
 
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { silent = true, desc = "Quit all" })
 
@@ -81,6 +92,22 @@ vim.keymap.set("n", "<leader>r", function()
     vim.cmd("source $MYVIMRC")
     vim.notify("Config reloaded")
 end, { silent = true, desc = "Reload config" })
+
+-- Rust LSP (native client, 0.11+). rust-analyzer via rustup proxy (not on PATH).
+vim.lsp.config("rust_analyzer", {
+    cmd = { "rustup", "run", "stable", "rust-analyzer" },
+    filetypes = { "rust" },
+    root_markers = { "Cargo.toml", "rust-project.json", ".git" },
+})
+vim.lsp.enable("rust_analyzer")
+
+-- gd to jump; grr/gra/grn/K are native LSP defaults
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(ev)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition,
+            { buffer = ev.buf, desc = "LSP go to definition" })
+    end,
+})
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

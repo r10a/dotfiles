@@ -7,7 +7,15 @@ return {
     },
     config = function()
         local telescope = require("telescope")
-        telescope.setup({})
+        local actions = require("telescope.actions")
+        telescope.setup({
+            defaults = {
+                mappings = {
+                    i = { ["<C-f>"] = actions.to_fuzzy_refine },
+                    n = { ["<C-f>"] = actions.to_fuzzy_refine },
+                },
+            },
+        })
         telescope.load_extension("fzf")
 
         local builtin = require("telescope.builtin")

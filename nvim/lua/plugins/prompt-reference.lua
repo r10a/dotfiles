@@ -8,6 +8,6 @@ return {
     opts = {
         output_style = "xml", -- xml parses more reliably for Claude
         sink = "tmux", -- paste the review into the tmux pane running claude
-        keymaps = true, -- visual <CR> = add, <Tab><Tab> = review
+        keymaps = true, -- plugin defaults: visual <CR> adds, <Tab><Tab> opens the review
     },
 }

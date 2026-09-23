@@ -7,8 +7,14 @@
 |-----|--------|
 | `Space ]` | Next buffer |
 | `Space [` | Previous buffer |
-| `Space 1-9` | Jump to buffer by number |
 | `Space q` | Close buffer |
+
+Buffer tabs are Neovim's native tabline, which shows only when 2+ tabs are open.
+
+### Tabs
+| Key | Action |
+|-----|--------|
+| `Space t q` | Close tab |
 
 ### Splits
 | Key | Action |
@@ -24,20 +30,25 @@
 ### File Navigation
 | Key | Action |
 |-----|--------|
-| `Space e` | Toggle file tree (floating) |
+| `Space e` | Toggle file tree (docked right, auto-width) |
 | `Space f` | Find files |
 | `Space g` | Live grep (excludes node_modules, .git) |
 | `Space b` | Find buffers |
 | `Space ?` | Search keybinds |
 
-### Git
+`nvim <dir>` (e.g. `vi .`) opens an empty buffer with the tree docked beside it, cursor left in the editor.
+
+### LSP
+Native `vim.lsp` client (Neovim 0.11+). rust-analyzer runs through the rustup
+proxy, so it does not need to be on `PATH`.
+
 | Key | Action |
 |-----|--------|
-| `Space gg` | Neogit status |
-| `Space gc` | Neogit commit |
-| `Space gp` | Neogit push |
-| `Space gl` | Neogit pull |
-| `Space gb` | Neogit branch |
+| `gd` | Go to definition |
+| `grr` | References (native default) |
+| `gra` | Code action (native default) |
+| `grn` | Rename (native default) |
+| `K` | Hover docs (native default) |
 
 ### Misc
 | Key | Action |
@@ -68,13 +79,13 @@ auto-detects the pane, falls back to the clipboard if none is found). Provided b
 
 - **kanagawa.nvim** - colorscheme (wave variant)
 - **nvim-jump** - label-based on-screen motion (press `s`, type a match, jump)
-- **bufferline.nvim** — buffer tabs with ordinal numbers
-- **scope.nvim** — scopes buffers to workspaces (tabs)
-- **nvim-tree.lua** — floating file tree explorer
+- **nvim-tree.lua** - file tree explorer docked on the right, auto-sizing to the
+  longest visible name (min 30 columns, unbounded max, so names never clip)
+- **which-key.nvim** - popup showing follow-up keys as you type a prefix
+- **neoscroll.nvim** - smooth scrolling
+- **smear-cursor.nvim** - animated cursor trail
 - **telescope.nvim** — fuzzy finder for files, grep, and buffers
 - **telescope-fzf-native.nvim** — fast fzf sorting for telescope
-- **neogit** — git interface (with diffview integration)
-- **diffview.nvim** — side-by-side diff viewer
 - **auto-session** — auto-save/restore workspace per directory
 - **render-markdown.nvim** — in-editor markdown rendering (table rendering left
   off; tables show as plain aligned source, since `wrap` breaks pipe tables)

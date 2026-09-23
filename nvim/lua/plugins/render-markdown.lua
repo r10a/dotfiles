@@ -50,10 +50,10 @@ return {
 
         require("render-markdown").setup({
             render_modes = true,
-            -- Table rendering left off: with global `wrap = true`, render-markdown's
-            -- pipe tables break on wide rows (issue #616 / PR #617). Tables show as
-            -- plain aligned markdown source, which is readable and doesn't misbehave.
-            pipe_table = { enabled = false },
+            -- `pipe_table.wrap` (8.14.0+) splits wide cells across multiple lines,
+            -- fixing the hanging-conceal breakage that previously forced tables off
+            -- under our global `wrap = true`. Needs nvim 0.11+ and conceallevel 2/3.
+            pipe_table = { enabled = true, wrap = true },
             anti_conceal = {
                 enabled = true,
                 disabled_modes = false,
@@ -64,6 +64,7 @@ return {
                     indent = true,
                     sign = true,
                     virtual_lines = true,
+                    table_border = true,
                 },
             },
         })
